@@ -44,21 +44,6 @@ problem restricted to the feasible set: a sparse log-Sinkhorn solver with the
 GW linearization from OTT, expression cost from NBVAE-30 Euclidean distances,
 and spatial GW geometry on standardized raw coordinates.
 
-### Information usage
-
-| Information | Used in construction | Used in evaluation |
-|---|---|---|
-| Spatial (contour / TPS / components / NN seeds) | ✅ Stage 1 | — |
-| Expression (NBVAE-30 Leiden / centroid distance) | ✅ Stage 1 + Stage 2 cost | — |
-| Pareto selection (expression + geometry, no weighted sum) | ✅ Stage 1 | — |
-| Annotation labels | ❌ | ✅ post-hoc |
-| Curated transitions table | ❌ | ✅ post-hoc reference only |
-
-The curated-transition table (`configs/curated_transitions.tsv`) is **only**
-used as an evaluation reference. It does not participate in model
-construction or parameter selection.
-
----
 
 ## Repository layout
 
