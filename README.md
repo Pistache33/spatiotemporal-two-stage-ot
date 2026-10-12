@@ -24,6 +24,8 @@ succeeds and where it fails.
 
 ## Method overview
 
+![Two-stage constrained optimal transport workflow](figures/method_overview.png)
+
 **Stage 1** builds a hard feasible set (which target spots each source spot may
 map to) without using annotation labels:
 
