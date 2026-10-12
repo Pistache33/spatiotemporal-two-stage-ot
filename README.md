@@ -149,21 +149,6 @@ Brain, DRG) and weak performance for diffuse / multi-lineage mesenchyme.
 
 ---
 
-## Reproduction status
-
-| Status | Meaning | Applicable to |
-|---|---|---|
-| **Code available** | implementation + run instructions | `src/`, `baselines/` |
-| **Results available** | saved results + the conditions that produced them | `results/`, `figures/` |
-| **Reproduction verified** | re-run from available inputs confirmed | *not yet claimed* |
-
-Currently **no claim of full numerical reproduction is made**: the extracted
-`src/` modules are code-identical to the source notebooks (see
-`EQUIVALENCE.md`), but they have not been re-executed end-to-end in a clean
-environment, and several inputs (raw H5ADs, `hard_support.npz`, `transport.npy`)
-are not committed.
-
----
 
 ## Data
 
