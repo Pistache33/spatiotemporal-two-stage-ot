@@ -1,181 +1,151 @@
-# spatiotemporal-two-stage-ot
+# Two-Stage Optimal Transport for Time-Series Spatial Transcriptomics
 
-Learning biologically plausible correspondences in time-series spatial
-transcriptomics via a two-stage, constrained optimal-transport pipeline.
+**Learning biologically plausible correspondences across unpaired spatial transcriptomics snapshots.**
 
-This repository accompanies a computational study of cell-state correspondence
-between consecutive time points of the mouse embryo (MOSTA):
+Spatial transcriptomics captures cell states at individual time points, but does not directly tell us how cells or tissue regions correspond across stages. This project explores a **two-stage optimal transport (OT)** strategy: first identify plausible cross-time candidate matches using spatial organization and molecular information, then estimate spot-level transport within the resulting feasible set.
 
-- **Pair A**: E9.5_E1S1 → E10.5_E2S1
-- **Pair C**: E10.5_E2S1 → E11.5_E1S1
+The repository contains the method implementation, **MOSCOT** and **SOCS** baseline pipelines, and experiments examining the strengths and limitations of inferred correspondences.
 
-It contains (1) the two-stage OT method, (2) the MOSCOT and SOCS baselines,
-and (3) the diagnostics used to interpret where correspondence inference
-succeeds and where it fails.
+> **Scope.** This is an exploratory study of constrained correspondence inference and its diagnostics—not a claim of state-of-the-art performance. In particular, the two-stage approach does **not** consistently outperform the baselines in overall accuracy.
 
-> **Positioning.** This is a study of **constrained correspondence inference
-> and its diagnostics**, not a state-of-the-art accuracy benchmark. The
-> two-stage method is not claimed to outperform MOSCOT/SOCS on overall
-> accuracy (see [Results](#results)); its value is in making the feasible-set
-> constraint explicit and in diagnosing *why* unconstrained baselines leak
-> mass across organs.
+**Explore:** [Method](#method) · [Results](#results) · [Reproducibility](#reproducibility) · [Repository guide](#repository-guide) · [Limitations](#limitations)
 
----
+## Method
 
-## Method overview
+![Overview of the two-stage constrained optimal transport workflow](figures/method_overview.png)
 
-![Two-stage constrained optimal transport workflow](figures/method_overview.png)
+*Conceptual illustration of the pipeline; the figure is schematic rather than an experimental result.*
 
-**Stage 1** builds a hard feasible set (which target spots each source spot may
-map to) without using annotation labels:
+### Stage 1 — Construct the feasible transport support
 
-1. **Spatial alignment (spatial only)** — contour/orientation alignment +
-   bidirectional thin-plate-spline (TPS) warping between source and target
-   slices.
-2. **Domain clustering (expression only)** — independent NBVAE-30 Leiden
-   clustering of source and target.
-3. **Pareto domain routing (expression + spatial, no weighted sum)** — each
-   source Leiden cluster selects candidate target Leiden clusters on the 2-D
-   Pareto front of (expression-centroid distance, geometry distance).
-4. **Feasible set** — for each selected target Leiden, its spatially connected
-   components are decomposed; components touched by nearest-neighbour seeds
-   from the source cluster are kept. Their union is the hard feasible set.
+For each source region, Stage 1 identifies candidate target regions **without using cell-type annotation labels**:
 
-**Stage 2** solves an exact-hard **unbalanced fused Gromov–Wasserstein (FGW)**
-problem restricted to the feasible set: a sparse log-Sinkhorn solver with the
-GW linearization from OTT, expression cost from NBVAE-30 Euclidean distances,
-and spatial GW geometry on standardized raw coordinates.
+1. **Spatial alignment:** align tissue contours and orientation, with bidirectional thin-plate spline (TPS) warping.
+2. **Domain identification:** perform independent Leiden clustering on the source and target NBVAE-30 embeddings.
+3. **Pareto candidate routing:** compare source and target domains using expression-centroid distance and spatial geometry distance as two separate objectives, rather than combining them into a fixed weighted sum.
+4. **Support construction:** decompose selected target domains into spatially connected components, retain components reached by nearest-neighbor seeds, and assemble a spot-level feasible support.
 
+The output is a binary support specifying which source–target spot pairs can receive transport mass.
 
-## Repository layout
+### Stage 2 — Refine spot-level correspondences
 
-```
-configs/            grids, curated transitions, SOCS run configs
-src/
-  stage1/           spatial_alignment / domain_clustering / pareto_routing /
-                    feasible_set / run  (extracted from notebooks)
-  stage2/           constrained_ot (+ domain_concentration_fgw dependency)
-  evaluation/       accuracy / support_diagnostics
-baselines/
-  moscot/           grid generator + runner + evaluation (copied verbatim)
-  socs/             official SOCS caller + resume entry
-notebooks/          reference notebooks (absolute paths preserved)
-results/            small CSVs/JSONs (weighted-best summaries, per-organ tables)
-figures/            representative PNGs
-data/               data provenance (no raw data committed)
-```
+Within the Stage 1 support, Stage 2 solves an **exact-hard constrained, unbalanced fused Gromov–Wasserstein (FGW)** problem. The implementation combines expression distances in NBVAE-30 space with spatial structural information, while enforcing zero transport mass outside the feasible support.
 
----
+The Stage 2 implementation uses a sparse log-Sinkhorn routine and GW linearization adapted from OTT. See [the source code](src/stage2/constrained_ot.py) and [the reference notebook](notebooks/01_stage1_stage2.ipynb) for implementation details.
+
+## Experimental setting
+
+The method is evaluated using two consecutive-stage pairs from the **MOSTA mouse embryo spatial transcriptomics dataset**. MOSTA serves as a test dataset for the general problem of unpaired cross-time correspondence inference.
+
+| Pair | Source section | Target section |
+|:--|:--|:--|
+| **Pair A** | E9.5_E1S1 | E10.5_E2S1 |
+| **Pair C** | E10.5_E2S1 | E11.5_E1S1 |
+
+The experiments use 30-dimensional NBVAE representations (\`X_nbvae_30\`). Cell-type annotations and curated developmental transitions serve as **evaluation references**, not as inputs to Stage 1 candidate construction.
 
 ## Results
 
-Curated-transition accuracy (weighted / macro), selected runs:
+### Overall curated-transition accuracy
 
-| Pair | Method | Weighted | Macro | Selection |
-|---|---|---|---|---|
-| PairA | Two-stage OT | **0.494** | 0.487 | src1_tgt0p6 (mass) |
-| PairA | SOCS | 0.452 | 0.455 | task 6, α_moscot 0.4→α_socs 0.6, τ=(0.05,1) |
-| PairA | MOSCOT | 0.432 | 0.394 | task 5, α=0.4, τ=(1.0,0.05) |
-| PairC | MOSCOT | **0.433** | 0.423 | task 11, α=0.6, τ=(0.01,1.0) |
-| PairC | SOCS | 0.394 | 0.383 | task 0, α_moscot 0.2→α_socs 0.8, τ=(1.0,0.01) |
-| PairC | Two-stage OT | 0.384 | 0.428 | src1_tgt0p6 (mass) |
+The table summarizes selected runs from the saved results. The reported weighted and macro scores use the curated-transition evaluation; detailed configurations and original precision are available in [\`results/baseline_summary.csv\`](results/baseline_summary.csv).
 
-Honest reading: the two-stage method is the best *on Pair A* but is below the
-MOSCOT baseline *on Pair C* on weighted accuracy. Per-organ results
-(`results/*/stage1_stage2/stage2_by_annotation.csv`) show strong performance
-for spatially concentrated, fate-restricted organs (Heart, Dermomyotome, Liver,
-Brain, DRG) and weak performance for diffuse / multi-lineage mesenchyme.
+| Pair | Method | Weighted | Macro |
+|:--|:--|--:|--:|
+| Pair A | **Two-stage OT** | **0.494** | **0.487** |
+| Pair A | SOCS | 0.452 | 0.455 |
+| Pair A | MOSCOT | 0.432 | 0.394 |
+| Pair C | MOSCOT | **0.433** | 0.423 |
+| Pair C | SOCS | 0.394 | 0.383 |
+| Pair C | Two-stage OT | 0.384 | **0.428** |
 
----
+![Reported overall accuracy for MOSCOT, SOCS, and two-stage OT](figures/MOSCOT_SOCS_Ours_mass_accuracy.png)
 
-## Baselines
+**What these results suggest**
 
-### MOSCOT
+- **Pair A:** the selected two-stage run has the highest reported weighted accuracy among the listed runs.
+- **Pair C:** two-stage OT has lower weighted accuracy than MOSCOT (0.384 vs. 0.433), although its reported macro score is slightly higher.
+- **Across organs:** some spatially concentrated regions show strong organ-level correspondence, while diffuse or heterogeneous tissues remain challenging. High annotation accuracy does not necessarily imply a well-distributed or biologically reliable coupling.
 
-- Actual run entry (no fabricated wrappers):
-  ```bash
-  python baselines/moscot/09_make_nbvae30_fgw_grid.py ...   # build grid TSV
-  python baselines/moscot/06_run_fgw_local.py \
-      --grid configs/moscot_grid_pairC.tsv \
-      --transitions configs/curated_transitions.tsv \
-      --output-root <out>
-  ```
-  (`06_run_fgw_local.py` loops over tasks, calling `05_run_fgw_grid_point.py`.)
-- Embedding: **`X_nbvae_30`** (NBVAE-30 latents); Pair C slices
-  E10.5_E2S1 → E11.5_E1S1, Pair A slices E9.5_E1S1 → E10.5_E2S1.
-- Grid: α ∈ {0.2, 0.4, 0.6} × τ ∈ {(1,.01),(1,.05),(.05,1),(.01,1)}, ε=1e-4,
-  no growth marginals.
-- Evaluation: curated-transition weighted / macro accuracy (self + known
-  descendants).
-- **Best-run selection rule**: maximum weighted accuracy; tie-break by task id.
-- MOSCOT `alpha` is the **GW (quadratic) weight**.
+**Interpretation caveat:** baseline runs were selected by weighted accuracy against the curated reference; these are *not* held-out estimates of generalization. The two-stage entries are taken from their saved mass-aggregated summaries. Historical configuration and metric differences should be checked before treating this table as a strictly controlled head-to-head benchmark.
 
-### SOCS
+### Spatial and organ-level diagnostics
 
-- Actual run entry (official implementation call + resume):
-  ```bash
-  python baselines/socs/run_official.py --pairs PairA ...   # Pair A
-  python baselines/socs/resume_pairc.py                      # Pair C resume
-  ```
-- Third-party implementation: [SOCS-main](https://github.com/algo-bio-lab/SOCS-main),
-  MIT License (c) 2025 algo-bio-lab. Reproduced here via the caller script; the
-  SOCS source itself is **not** vendored.
-- **Alpha convention**: SOCS `alpha` is the *expression* weight, the opposite
-  of MOSCOT. The caller maps `alpha_socs = 1 − alpha_moscot`
-  (`--alpha-mode match_moscot`). τ is converted as `rho = ε·τ/(1−τ)`
-  (τ=1 ⇒ ρ=∞).
-- Embedding: `X_nbvae_30`; same slices and resolutions as MOSCOT.
-- Best-run selection rule: maximum weighted accuracy.
+The diagnostic notebooks examine where transport mass goes, how the feasible support affects candidate matches, and when seemingly high annotation accuracy masks problematic concentration of mass.
 
-### Third-party attribution
+<details>
+<summary><strong>Example: Pair A Brain correspondence across methods</strong></summary>
 
-- **MOSCOT** (BSD-3): https://github.com/ComputationalCellBiology/moscot
-- **OTT-JAX** (Apache-2.0): https://github.com/ott-jax/ott
-- **SOCS** (MIT): https://github.com/algo-bio-lab/SOCS-main
-- **Scanpy / AnnData / JAX**: see `environment.yml`.
+![Pair A Brain correspondence diagnostic](figures/PairA_src1_tgt0p6_PairA_Brain_top1_MOSCOT_SOCS_Ours.png)
 
----
+</details>
 
+<details>
+<summary><strong>Example: Pair A failure-case and spatial concentration analysis</strong></summary>
 
-## Data
+![Pair A failure-case diagnosis](figures/PairA_failure_diagnostics_spatial_concentration.png)
 
-See `data/README.md`. Raw H5ADs and large coupling arrays (`*.npy`, `*.npz`) are
-**not** committed. Data sources and regeneration steps are documented there.
+</details>
 
----
+For the analyses behind these figures, see [spatial correspondences](notebooks/02_spatial_correspondence.ipynb), [cell-type evaluation](notebooks/03_cell_type_evaluation.ipynb), [failure diagnostics](notebooks/04_failure_diagnostics.ipynb), and [feasible-set visualization](notebooks/05_stage1_feasible_set_viz.ipynb).
 
-## Known limitations
+## Reproducibility
 
-- Single Leiden seed (`seed=0`); seed-robustness not characterized.
-- **Pair C over-concentrated coupling (Brain / DRG).** On Pair C the Stage-2
-  hard-feasible coupling for **Brain** and **dorsal root ganglion (DRG)**
-  deposits most of its transported mass on a small number of target spots
-  (coupling collapse / over-concentration), even though per-organ top-1
-  curated accuracy remains high (Brain 0.87, DRG 0.87 in
-  `results/PairC/stage1_stage2/stage2_by_annotation.csv`). This
-  over-concentration is a known failure mode of the exact-hard unbalanced FGW
-  on these organs and is reported here rather than hidden.
-- Pair A Stage-1 input path (`domain_concentration_repro/input/`) no longer
-  exists on the original machine; the NBVAE-30 latent file
-  `mosta_flatvi_fgw/data/E9.5__E10.5.nbvae30_latents.h5ad` is the canonical
-  input and the source/target split must be regenerated from it.
-- Notebooks contain absolute paths (kept for fidelity); update before running.
-- `src1_tgt1p4` variants are not presented as full Stage-2 results (see
-  `results/*/stage1_stage2/` note).
+This repository publishes source code, configurations, reference notebooks, and small result tables. **It is not yet a fully verified, end-to-end reproduction package.**
 
----
+| Component | Current status |
+|:--|:--|
+| Stage 1 / Stage 2 source modules | Available; extracted from experiment notebooks |
+| Source-level equivalence | Checked against notebook implementations; see [EQUIVALENCE.md](EQUIVALENCE.md) |
+| Saved results and figures | Available as CSV, JSON, and PNG |
+| Raw / processed H5AD and large transport arrays | Not included |
+| End-to-end numerical reproduction from fresh inputs | **Not yet verified** |
 
-## AI assistance
+### Data and dependencies
 
-- `figures/method_overview.png` is an **AI-generated schematic** used for
-  illustration only; all quantitative results elsewhere in this repository are
-  produced by the code and data contained here.
-- Parts of the code in `src/` and `baselines/` were **drafted with the help of
-  an AI coding assistant. The method design,
-  parameters, and scientific conclusions are the author's own.
+- **Data:** see [data/README.md](data/README.md) for section IDs, input schema, data provenance, and the known missing Pair A source/target split.
+- **Environment:** see [environment.yml](environment.yml). The original Stage 2 configuration requires a JAX GPU backend; SOCS used a separate environment.
+- **Notebooks:** retained as historical reference implementations and may contain original absolute paths. Paths must be adapted before execution.
 
----
+### Baseline implementations
 
-## License
+| Baseline | Actual entry points | Notes |
+|:--|:--|:--|
+| **MOSCOT** | [grid generator](baselines/moscot/09_make_nbvae30_fgw_grid.py) → [grid runner](baselines/moscot/06_run_fgw_local.py) → [per-task solver](baselines/moscot/05_run_fgw_grid_point.py) | Full-rank FGW, NBVAE-30; [configuration details](baselines/moscot/README.md) |
+| **SOCS** | [official-implementation caller](baselines/socs/run_official.py), [Pair C resume entry](baselines/socs/resume_pairc.py) | Depends on the external SOCS source; [configuration details](baselines/socs/README.md) |
 
-See `LICENSE`. Third-party components retain their own licenses.
+No new or unverified one-command wrappers are presented as original experimental entry points.
+
+**Parameter conventions:** for MOSCOT, \`alpha\` is the GW (quadratic) weight, whereas for SOCS it is the expression weight; the caller maps \`alpha_socs = 1 - alpha_moscot\`. The experiments use \`epsilon = 1e-4\` and a grid of \`alpha_moscot ∈ {0.2, 0.4, 0.6}\` and \`(tau_a, tau_b) ∈ {(1, .01), (1, .05), (.05, 1), (.01, 1)}\`, without growth marginals. For precise per-method settings and actual invocation requirements, follow the baseline READMEs rather than assuming the two solvers share identical parameter semantics.
+
+## Repository guide
+
+\`\`\`text
+configs/             Pair-specific grids, evaluation references, run configs
+src/
+  stage1/            Alignment, clustering, Pareto routing, feasible support
+  stage2/            Constrained unbalanced FGW implementation
+  evaluation/        Accuracy and support diagnostics
+baselines/
+  moscot/            MOSCOT experiment drivers and documentation
+  socs/              SOCS experiment callers and documentation
+notebooks/           Original analysis and diagnostic workflows
+results/             Selected metrics, support summaries, organ-level tables
+figures/             Method illustration and representative diagnostics
+data/                Data provenance and required input structure
+EQUIVALENCE.md       Source-extraction audit and verification limits
+environment.yml      Recorded software environment
+\`\`\`
+
+## Limitations
+
+- **Transport concentration:** on Pair C, Brain and dorsal root ganglion (DRG) couplings can concentrate mass on relatively few target spots despite high per-organ annotation accuracy. See the organ-level tables in [results/PairC](results/PairC/stage1_stage2/).
+- **Parameter sensitivity:** candidate supports and downstream couplings depend on domain definitions and routing choices; the reported Leiden experiments use a single seed (\`seed=0\`).
+- **Incomplete portability:** processed inputs are excluded, one original Pair A input path is no longer available, and the historical notebooks contain absolute paths. A clean-environment numerical rerun remains outstanding.
+- **Incomplete variants:** \`src1_tgt1p4\` appears only in Stage 1 investigations, not as a complete Stage 2 comparison.
+
+## Attribution and license
+
+This work builds on [MOSCOT](https://github.com/ComputationalCellBiology/moscot), [OTT-JAX](https://github.com/ott-jax/ott), and the external [SOCS implementation](https://github.com/algo-bio-lab/SOCS-main). The dependencies and their respective licenses remain governed by their original projects; see the [baseline documentation](baselines/) and [LICENSE](LICENSE).
+
+**Provenance and AI assistance:** the method-overview figure is AI-generated and is intended only as a schematic. AI coding assistance was used in organizing or drafting parts of the code and documentation. The repository preserves the original experiment outputs; [EQUIVALENCE.md](EQUIVALENCE.md) states what has and has not been independently verified. Scientific interpretation and method decisions remain the author's responsibility.
