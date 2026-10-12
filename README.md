@@ -42,13 +42,13 @@ The method is evaluated using two consecutive-stage pairs from the **MOSTA mouse
 | **Pair A** | E9.5_E1S1 | E10.5_E2S1 |
 | **Pair C** | E10.5_E2S1 | E11.5_E1S1 |
 
-The experiments use 30-dimensional NBVAE representations (\`X_nbvae_30\`). Cell-type annotations and curated developmental transitions serve as **evaluation references**, not as inputs to Stage 1 candidate construction.
+The experiments use 30-dimensional NBVAE representations (`X_nbvae_30`). Cell-type annotations and curated developmental transitions serve as **evaluation references**, not as inputs to Stage 1 candidate construction.
 
 ## Results
 
 ### Overall curated-transition accuracy
 
-The table summarizes selected runs from the saved results. The reported weighted and macro scores use the curated-transition evaluation; detailed configurations and original precision are available in [\`results/baseline_summary.csv\`](results/baseline_summary.csv).
+The table summarizes selected runs from the saved results. The reported weighted and macro scores use the curated-transition evaluation; detailed configurations and original precision are available in [`results/baseline_summary.csv`](results/baseline_summary.csv).
 
 | Pair | Method | Weighted | Macro |
 |:--|:--|--:|--:|
@@ -116,11 +116,11 @@ This repository publishes source code, configurations, reference notebooks, and 
 
 No new or unverified one-command wrappers are presented as original experimental entry points.
 
-**Parameter conventions:** for MOSCOT, \`alpha\` is the GW (quadratic) weight, whereas for SOCS it is the expression weight; the caller maps \`alpha_socs = 1 - alpha_moscot\`. The experiments use \`epsilon = 1e-4\` and a grid of \`alpha_moscot ∈ {0.2, 0.4, 0.6}\` and \`(tau_a, tau_b) ∈ {(1, .01), (1, .05), (.05, 1), (.01, 1)}\`, without growth marginals. For precise per-method settings and actual invocation requirements, follow the baseline READMEs rather than assuming the two solvers share identical parameter semantics.
+**Parameter conventions:** for MOSCOT, `alpha` is the GW (quadratic) weight, whereas for SOCS it is the expression weight; the caller maps `alpha_socs = 1 - alpha_moscot`. The experiments use `epsilon = 1e-4` and a grid of `alpha_moscot ∈ {0.2, 0.4, 0.6}` and `(tau_a, tau_b) ∈ {(1, .01), (1, .05), (.05, 1), (.01, 1)}`, without growth marginals. For precise per-method settings and actual invocation requirements, follow the baseline READMEs rather than assuming the two solvers share identical parameter semantics.
 
 ## Repository guide
 
-\`\`\`text
+```text
 configs/             Pair-specific grids, evaluation references, run configs
 src/
   stage1/            Alignment, clustering, Pareto routing, feasible support
@@ -135,14 +135,14 @@ figures/             Method illustration and representative diagnostics
 data/                Data provenance and required input structure
 EQUIVALENCE.md       Source-extraction audit and verification limits
 environment.yml      Recorded software environment
-\`\`\`
+```
 
 ## Limitations
 
 - **Transport concentration:** on Pair C, Brain and dorsal root ganglion (DRG) couplings can concentrate mass on relatively few target spots despite high per-organ annotation accuracy. See the organ-level tables in [results/PairC](results/PairC/stage1_stage2/).
-- **Parameter sensitivity:** candidate supports and downstream couplings depend on domain definitions and routing choices; the reported Leiden experiments use a single seed (\`seed=0\`).
+- **Parameter sensitivity:** candidate supports and downstream couplings depend on domain definitions and routing choices; the reported Leiden experiments use a single seed (`seed=0`).
 - **Incomplete portability:** processed inputs are excluded, one original Pair A input path is no longer available, and the historical notebooks contain absolute paths. A clean-environment numerical rerun remains outstanding.
-- **Incomplete variants:** \`src1_tgt1p4\` appears only in Stage 1 investigations, not as a complete Stage 2 comparison.
+- **Incomplete variants:** `src1_tgt1p4` appears only in Stage 1 investigations, not as a complete Stage 2 comparison.
 
 ## Attribution and license
 
