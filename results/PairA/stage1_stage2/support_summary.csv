@@ -1,0 +1,2 @@
+pair,n_source_eval,support_fraction,weighted_coverage,macro_coverage,weighted_purity,macro_purity
+PairA,5031,0.1346512465660866,0.7226794985437508,0.8402782058078343,0.1269858929286636,0.1301389316109547

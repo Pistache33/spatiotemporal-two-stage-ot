@@ -1,0 +1,35 @@
+{
+  "socs_repo": "/mnt/disk2/lirui/baseline_scripts/SOCS-main",
+  "pairs": [
+    "PairA"
+  ],
+  "feature_key": "X_nbvae_30",
+  "alpha_values_moscot": [
+    0.2,
+    0.4,
+    0.6
+  ],
+  "alpha_mode": "match_moscot",
+  "epsilon": 0.0001,
+  "max_iters": 30,
+  "method": "fugw_cpu",
+  "grid_tau_pairs": [
+    [
+      1.0,
+      0.01
+    ],
+    [
+      1.0,
+      0.05
+    ],
+    [
+      0.05,
+      1.0
+    ],
+    [
+      0.01,
+      1.0
+    ]
+  ],
+  "tau_to_rho_formula": "rho = epsilon * tau / (1-tau); tau=1 -> inf"
+}

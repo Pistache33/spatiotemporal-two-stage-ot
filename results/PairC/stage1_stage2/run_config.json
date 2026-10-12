@@ -1,0 +1,18 @@
+{
+  "pair": "PairC",
+  "name": "E10.5_E2S1 -> E11.5_E1S1",
+  "source_resolution": 1.0,
+  "target_resolution": 0.6,
+  "leiden_k": 15,
+  "leiden_seed": 0,
+  "leiden_n_iterations": 2,
+  "boundary_points": 256,
+  "spatial_cc_factor": 1.5,
+  "construction": "spatial contour/TPS + independent NBVAE30 Leiden + Pareto domain routing + touched target-Leiden-local components",
+  "cycle_error_saved_only_for_diagnostic": true,
+  "cycle_error_used_in_support": false,
+  "annotation_used_in_construction": false,
+  "curated_used_in_construction": false,
+  "cavity_in_construction": true,
+  "cavity_dropped_only_in_posthoc_evaluation": true
+}

@@ -1,0 +1,28 @@
+name: spatiotemporal-two-stage-ot
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - moscot==0.5.0
+      - ott-jax==0.6.0
+      - jax==0.6.2
+      - jaxlib
+      - scanpy==1.11.5
+      - anndata==0.11.4
+      - numpy==2.2.6
+      - pandas==2.3.3
+      - scipy
+      - matplotlib
+      - ipython
+
+# Notes
+# -----
+# - Versions above mirror the environment recorded in the MOSCOT metrics.json
+#   (`software_versions`) for the baseline runs.
+# - Stage 2 requires a GPU (JAX CUDA backend); the original run raised an error
+#   if the backend was not "gpu".
+# - SOCS uses a separate environment (see baselines/socs/README.md); the
+#   original runs used `/mnt/disk2/lirui/conda_envs/socs-official`.

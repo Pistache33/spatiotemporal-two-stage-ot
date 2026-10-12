@@ -1,0 +1,51 @@
+Cell_type	Known_progenitors	Known_descendants	Citations	Additional_information
+Ectoderm	/	Brain, Spinal cord, Neural crest, Branchial arch, Surface ectoderm	-> Brain: PMID: PMC2888941, -> Spinal cord: PMID: 29109536, -> Neural crest: Neural crest: PMID: 22820859, PMID: 18523435, -> Branchial arch: PMID: 15110048, -> Surface ectoderm: PMID: 2627894	/
+Mesoderm	/	Branchial arch, Heart, Sclerotome, Dermomyotome, Notochord, AGM, Mesenchyme, Head mesenchyme	-> Branchial arch: PMID: 15110048, Heart: PMID: 31476530, PMID: 24086063, → AGM: PMID: 18204427, all other transitions: PMID: 31476530	/
+Endoderm	/	Liver, Primitive gut tube	-> Liver: PMID: 16123587, Primitive gut tube: PMID: 26134088	/
+Brain	Ectoderm	Eye	-> Eye: PMID: 20959163	/
+Spinal cord	Ectoderm	/	/	/
+Neural crest	Ectoderm	Branchial arch, Smooth muscle, Submandibular gland, Eye, Meninges, Head mesenchyme, Olfactory epithelium, Dorsal root ganglion, Facial nerve, Sympathetic nerve, Adrenal gland, Jaw and tooth	-> Branchial arch: PMID: 15110048, Facial nerve: PMID: 32850790, -> Dorsal root ganglion: PMID: 15590743, -> Sympathic nerve: PMID: 15590743, PMID: 24770894, -> Smooth muscle: PMID: 16436625, → Head mesenchyme: PMID: 27493992, → Submandibular gland: PMID: 30740679, → Meninges: PMID: 30801905, → Adrenal gland: PMID: 26038200, Jaw and tooth: PMID: 11523812	Neural crest also becomes smooth muscle cells, but only those of the head
+Branchial arch	Mesoderm, Ectoderm, Neural crest, Mesenchyme	Jaw and tooth, Thymus	-> Jaw and tooth: PMID: 15110048, Thymus: PMID: 31402457	Usually called “Pharyngeal arch” in mammals. The endodermal component of the arches forms the thymus
+Dermomyotome	Mesoderm	Adipose tissue, Smooth muscle, Meninges, Muscle, Connective tissue, Head mesenchyme	-> Adipose tissue: PMID: 30948523, -> Smooth muscle: PMID: 16436625, -> Meninges: PMID: 30801905, → Muscle: PMID: 10631173, → Connective tissue: PMID: 15338303, Head mesenchyme: PMID: 27493992	/
+Heart	Mesoderm	/		/
+Sclerotome	Mesoderm	Cartilage primordium, Cartilage	-> Cartilage primordium: PMID: 10631173	/
+Sympathetic nerve	Neural crest	/		/
+Facial nerve	Neural crest	/		PMID: 32850790 is a really nice publication listing progenitors of various cranial nerves
+Dorsal root ganglion	Neural crest	/		/
+Surface ectoderm	Ectoderm	Epidermis, Mucosal epithelium, Olfactory epithelium, Meninges, Choroid plexus, Submandibular gland, Eye, Inner ear	-> Meninges: PMID: 25386116, → Choroid plexus: PMID: 25386116, PMID: 25784848, -> Mucosal epithelium: PMID: 14675222, Olfactory epithelium: PMID: 21943152, → Submandibular gland: PMID: 30740679, Eye → PMID: 20959163, Inner ear → PMID: 32491520	/
+Epidermis	Surface ectoderm	Mucosal epithelium, Olfactory epithelium	-> Mucosal epithelium: PMID: 14675222, → Olfactory epithlium: PMID: 21943152	/
+Mucosal epithelium	Surface ectoderm, Epidermis	Olfactory epithelium, Submandibular gland, Inner ear	-> Olfactory epithlium: PMID: 21943152, Submandibular gland: PMID: 30740679, → Inner ear: PMID: 32491520	/
+Olfactory epithelium	Surface ectoderm, Mucosal epithelium, Neural crest, Epidermis	/		/
+Head mesenchyme	Neural crest, Mesoderm, Dermomyotome, Mesenchyme	Mesenchyme, Meninges	-> Meninges: PMID: 30801905, Mesenchyme: self	/
+Choroid plexus	Surface ectoderm, Mesenchyme	/		/
+Meninges	Neural crest, Head mesenchyme, Dermomyotome, Surface ectoderm	/		/
+Inner ear	Surface ectoderm, Mucosal epithelium	/		/
+Eye	Brain, Neural crest, Surface ectoderm	/		The eye consits of all three germ layers, but initially (~E10 to ~E15) retinal neurons make up the biggest part. The lens develops from surface ectoderm and makes up about 20% of eye volumne at ~E15
+Notochord	Mesoderm	Cartilage primordium	-> Cartilage primordium: PMID: 27252900	Notochord develops into intervertebral discs
+AGM	Mesoderm	Blood vessel, Urogenital ridge, Ovary, Adrenal gland, Kidney	-> Urogenital ridge: PMID: 10835345, -> Blood vessel -> self (AGM is part of the aorta), -> Ovary: PMID: 25139092, → Adrenal gland: PMID: 26038200, -> Kidney: PMID: 31613527	It appears as though the MOSTA data uses AGM (=Aorta-gonad-mesonephros) synonymous to all of the intermediate mesoderm, which is unusual, but fine
+Urogenital ridge	AGM	Kidney, Ovary, Adrenal gland	-> Kidney: PMID: 31613527, -> Ovary: PMID: 25139092, -> Adrenal gland: PMID: 26038200	Develops from intermediate mesoderm
+Kidney	AGM, Urogenital ridge	/	/	/
+Adrenal gland	AGM, Urogenital ridge, Neural crest	/	/	Medulla comes from neural crest, the cortex from intermediate mesoderm (I put AGM and Urogenital ridge here, since MOSTA uses urogenital ridge and AGM synonymous to intermediate mesoderm)
+Ovary	Urogenital ridge, AGM	/	/	/
+Submandibular gland	Surface ectoderm, Mucosal epithelium, Neural crest	/	/	/
+Thymus	Branchial arch	/	/	/
+Cavity	/	/	/	/
+Blood vessel	AGM, Mesenchyme, Smooth muscle, Connective tissue	/	/	/
+Mesenchyme	Head mesenchyme, Mesoderm	Head mesenchyme, Connective tissue, Blood vessel, Choroid plexus, Smooth muscle, Adipose tissue, Branchial arch, Mesothelium	-> Choroid plexus: PMID: 25386116, PMID: 25784848, -> Adipose tissue: PMID: 30948523, -> Smooth muscle: PMID: 16436625, -> Branchial arch: PMID: 15110048	It appears as though MOSTA uses Mesenchyme+Mesothelium synonymous to splanchnic mesoderm. From E14 onwards Mesothelium and most of mesenchyme is classified as connective tissue (as are a big part of the cells of the embryo)
+Connective tissue	Dermomyotome, Mesenchyme, Cartilage primordium	Cartilage primordium, Cartilage, Blood vessel	Cartilage primordium: self, Blood vessel: self (tunica externa)	/
+Adipose tissue	Dermomyotome, Mesenchyme	/	/	/
+Smooth muscle	Neural crest, Mesenchyme, Dermomyotome	Blood vessel	-> Blood vessel: blood vessel consist of smooth muscle	/
+Mesothelium	Mesentery, Mesenchyme	Mesentery	-> Mesentery: self	Mesothelium = (Pleura, Pericardium, Peritoneum, Mesentery, Tunica vaginalis)
+Muscle	Dermomyotome	/	/	/
+Cartilage primordium	Sclerotome, Notochord, Connective tissue	Cartilage, Connective tissue, Bone	-> Cartilage: self, Connective tissue: self, -> Bone: PMID: 25474590	Cartilage is a type of connective tissue
+Cartilage	Cartilage primordium, Sclerotome, Connective tissue	Bone	-> Bone: PMID: 25474590	/
+Bone	Cartilage primordium, Cartilage	/	/	/
+Liver	Endoderm, Primitive gut tube	/	/	/
+Primitive gut tube	Endoderm	Pancreas primordium, Pancreas, GI tract, Lung primordium, Lung, Liver	-> Pancreas primordium: PMID: 23630303, -> GI tract: PMID: 32319546, -> Lung primordium: PMID: 35410254, -> Liver: Liver: PMID: 16123587	/
+Pancreas primordium	Primitive gut tube	Pancreas	-> Pancreas: self	/
+Pancreas	Primitive gut tube, Pancreas primordium	/	/	/
+GI tract	Primitive gut tube	/	/	/
+Lung primordium	Primitive gut tube	Lung	-> Lung: self	/
+Lung	Primitive gut tube, Lung primordium	/	/	/
+Mesentery	Mesothelium	Mesothelium	Mesentery → Mesothelium: self	Mesentery is one of the two mesotheliums of the abdomen (the other is the peritoneum)
+Jaw and tooth	Branchial arch, Neural crest	/	/	/

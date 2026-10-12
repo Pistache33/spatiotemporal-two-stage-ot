@@ -1,0 +1,13 @@
+task_id,alpha,tau_a,tau_b,weighted_accuracy,macro_accuracy,growth_marginals,converged,elapsed_seconds,status,task_dir
+11,0.6,0.01,1.0,0.4329040822556589,0.42330456204613753,skipped,True,184.44635486602783,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_011__alpha_0.6__taua_0.01__taub_1
+10,0.6,0.05,1.0,0.4327430887463036,0.4232515040297222,skipped,True,178.3584759235382,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_010__alpha_0.6__taua_0.05__taub_1
+6,0.4,0.05,1.0,0.4301352289218087,0.41762300544914177,skipped,True,285.278475522995,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_006__alpha_0.4__taua_0.05__taub_1
+7,0.4,0.01,1.0,0.43009802268961783,0.4176085351920343,skipped,True,183.70415496826172,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_007__alpha_0.4__taua_0.01__taub_1
+2,0.2,0.05,1.0,0.39978867560722675,0.3839311238031802,skipped,True,154.25862097740173,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_002__alpha_0.2__taua_0.05__taub_1
+3,0.2,0.01,1.0,0.3997640288895949,0.383942947675306,skipped,True,199.71867656707764,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_003__alpha_0.2__taua_0.01__taub_1
+8,0.6,1.0,0.01,0.38517037139801197,0.4421751941967351,skipped,True,192.80117058753967,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_008__alpha_0.6__taua_1__taub_0.01
+9,0.6,1.0,0.05,0.3851519456630444,0.44216477106660945,skipped,True,175.8234841823578,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_009__alpha_0.6__taua_1__taub_0.05
+4,0.4,1.0,0.01,0.37857565357411854,0.4376217669931007,skipped,True,184.78267621994019,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_004__alpha_0.4__taua_1__taub_0.01
+5,0.4,1.0,0.05,0.3785124826234124,0.4375769007798893,skipped,True,187.14000630378723,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_005__alpha_0.4__taua_1__taub_0.05
+0,0.2,1.0,0.01,0.3658398355271968,0.42637048486760476,skipped,True,182.64004611968994,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_000__alpha_0.2__taua_1__taub_0.01
+1,0.2,1.0,0.05,0.3657939195063064,0.426352123053444,skipped,True,155.65480303764343,success,/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_001__alpha_0.2__taua_1__taub_0.05

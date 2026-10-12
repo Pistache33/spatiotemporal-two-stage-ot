@@ -1,0 +1,10 @@
+{
+  "task_id": 11,
+  "alpha": 0.6,
+  "tau_a": 0.01,
+  "tau_b": 1.0,
+  "weighted_accuracy": 0.4329040822556589,
+  "macro_accuracy": 0.42330456204613753,
+  "growth_marginals": "skipped",
+  "task_dir": "/mnt/disk2/lirui/mosta_e105_e115_baselines/moscot/E10.5__E11.5/X_nbvae_30/task_011__alpha_0.6__taua_0.01__taub_1"
+}

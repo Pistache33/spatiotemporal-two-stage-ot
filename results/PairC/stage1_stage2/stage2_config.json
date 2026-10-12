@@ -1,0 +1,22 @@
+{
+  "alpha2": 0.4,
+  "fused_penalty": 1.4999999999999998,
+  "epsilon": 0.0001,
+  "tau_a": 1.0,
+  "tau_b": 0.05,
+  "outer_iterations": 10,
+  "inner_min": 20,
+  "inner_max": 500,
+  "inner_check_every": 10,
+  "inner_source_tol": 0.01,
+  "spatial": "raw spatial -> dimension-wise standardization -> Euclidean -> max_cost",
+  "expression": "NBVAE30 Euclidean / GLOBAL source-target maximum",
+  "support": "/mnt/disk2/lirui/mosta_e105_e115_baselines/pareto/PairC/src1_tgt0p6/hard_support.npz",
+  "hard_support": true,
+  "forbidden_edges_enter_sinkhorn": false,
+  "stage1_tps_used_in_stage2_objective": false,
+  "stage1_pareto_scores_used_in_stage2_objective": false,
+  "annotation_used_in_optimization": false,
+  "curated_used_in_optimization": false,
+  "cavity_excluded_from_stage2_evaluation": false
+}

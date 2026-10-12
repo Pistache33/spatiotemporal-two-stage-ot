@@ -1,0 +1,7 @@
+pair,method,weighted_accuracy,macro_accuracy,best_selection
+PairC,MOSCOT,0.432904,0.423305,"task 11 alpha=0.6 tau=(0.01,1.0)"
+PairA,MOSCOT,0.432045,0.394262,"task 5 alpha=0.4 tau=(1.0,0.05)"
+PairA,SOCS,0.452128,0.455275,"task 6 alpha_moscot=0.4->alpha_socs=0.6 tau=(0.05,1.0)"
+PairC,SOCS,0.394215,0.382549,"task 0 alpha_moscot=0.2->alpha_socs=0.8 tau=(1.0,0.01)"
+PairA,Two-stage OT,0.494179,0.487153,src1_tgt0p6 (mass-weighted / mass-macro)
+PairC,Two-stage OT,0.384325,0.427368,src1_tgt0p6 (mass-weighted / mass-macro)

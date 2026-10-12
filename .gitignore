@@ -1,0 +1,33 @@
+# Large intermediate / raw data — not committed
+*.npy
+*.npz
+*.h5ad
+*.h5
+*.loom
+*.zarr/
+
+# Data directory (documented, not committed)
+data/*
+!data/README.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_*
+jupyter_cell_outputs/
+
+# Env / secrets
+.env
+*.pem
+*.key
+
+# OS
+.DS_Store
+Thumbs.db

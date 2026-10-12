@@ -1,0 +1,2 @@
+pair,task_id,alpha_moscot,alpha_socs,tau_a,tau_b,rho1,rho2,weighted_accuracy,macro_accuracy
+PairC,0,0.2,0.8,1.0,0.01,inf,1.0101010101010103e-06,0.3942151044528099,0.3825494762828734

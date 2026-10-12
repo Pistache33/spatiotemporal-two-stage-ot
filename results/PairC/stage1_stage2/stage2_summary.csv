@@ -1,0 +1,2 @@
+pair,top1_weighted,top1_macro,mass_weighted,mass_macro,transport_mass,n_allowed_edges,support_density,forbidden_mass,runtime_seconds
+PairC,0.38438898045679304,0.4274876684768063,0.3843247331945912,0.42736840245868,1.0002209721831945,28672858,0.11262712634295738,0.0,35.69081354141235
