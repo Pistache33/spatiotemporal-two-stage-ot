@@ -1,7 +1,25 @@
 # MOSCOT baseline
 
-Copied verbatim from the original run directory
-`baseline_scripts/mosta_flatvi_fgw/`. No run entry points were invented.
+MOSCOT is run as a full-rank fused Gromov–Wasserstein (FGW) baseline on the
+NBVAE-30 embeddings. This directory contains the grid generator, runner, and
+evaluation scripts; MOSCOT itself is installed from PyPI.
+
+## How it is run
+
+1. **Build the grid** — `09_make_nbvae30_fgw_grid.py` writes the 12-point grid
+   TSV (`configs/moscot_grid_pairA.tsv` / `configs/moscot_grid_pairC.tsv`).
+2. **Run the grid** — `06_run_fgw_local.py` loops over grid tasks and calls
+   `05_run_fgw_grid_point.py` for each point, solving one FGW problem and
+   evaluating the dense coupling.
+3. **Summarize** — `07_summarize_flatvi_fgw.py` aggregates the grid results;
+   the weighted-best run is selected.
+
+```bash
+python baselines/moscot/06_run_fgw_local.py \
+    --grid configs/moscot_grid_pairC.tsv \
+    --transitions configs/curated_transitions.tsv \
+    --output-root <out>
+```
 
 ## Files
 
@@ -12,20 +30,6 @@ Copied verbatim from the original run directory
 | `05_run_fgw_grid_point.py` | run + evaluate one grid point |
 | `fgw_eval_common.py` | dense-coupling evaluation helpers |
 | `07_summarize_flatvi_fgw.py` | summarize grid results |
-
-## Actual run (Pair C)
-
-```bash
-python baselines/moscot/09_make_nbvae30_fgw_grid.py ...
-python baselines/moscot/06_run_fgw_local.py \
-    --grid configs/moscot_grid_pairC.tsv \
-    --transitions configs/curated_transitions.tsv \
-    --output-root <out>
-```
-
-Pair A used the same runner with
-`configs/moscot_grid_pairA.tsv` (grid `grids/nbvae30.tsv` from the
-`mosta_growth_marginal_ablation/no_growth_score` run).
 
 ## Parameters
 

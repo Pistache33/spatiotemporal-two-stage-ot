@@ -103,7 +103,7 @@ This repository publishes source code, configurations, reference notebooks, and 
 
 ### Data and dependencies
 
-- **Data:** see [data/README.md](data/README.md) for section IDs, input schema, data provenance, and the known missing Pair A source/target split.
+- **Data:** see [data/README.md](data/README.md) for section IDs, input schema, and data provenance.
 - **Environment:** see [environment.yml](environment.yml). The original Stage 2 configuration requires a JAX GPU backend; SOCS used a separate environment.
 - **Notebooks:** retained as historical reference implementations and may contain original absolute paths. Paths must be adapted before execution.
 
@@ -141,7 +141,7 @@ environment.yml      Recorded software environment
 
 - **Transport concentration:** on Pair C, Brain and dorsal root ganglion (DRG) couplings can concentrate mass on relatively few target spots despite high per-organ annotation accuracy. See the organ-level tables in [results/PairC](results/PairC/stage1_stage2/).
 - **Parameter sensitivity:** candidate supports and downstream couplings depend on domain definitions and routing choices; the reported Leiden experiments use a single seed (`seed=0`).
-- **Incomplete portability:** processed inputs are excluded, one original Pair A input path is no longer available, and the historical notebooks contain absolute paths. A clean-environment numerical rerun remains outstanding.
+- **Incomplete portability:** processed inputs are excluded and the historical notebooks contain absolute paths. A clean-environment numerical rerun remains outstanding.
 - **Incomplete variants:** `src1_tgt1p4` appears only in Stage 1 investigations, not as a complete Stage 2 comparison.
 
 ## Attribution and license
